@@ -16,12 +16,14 @@ http://forum.mkroll.mobi
 This repository contains the eagle design files as well as the firmware source code which are needed modify and rebuild the firmware. The hexfiles are included as well. Moreover I added the Arduino Sketches from my blog to this repository as well.
 
 Notes for BLEbee 0.7.1:
+-----
 
 -The Eagle design files are created using Eagle v5.11.0
 
 -The Firmware v0.7.1 for the BLE112 module on the BLEbee was created and compiled for the Bluegiga BLE112 SDK v1.0.3-b43
 
 Notes for BLEbee 1.0.0:
+-----
 
 -The Eagle design files are created using Eagle v6.4.0
 
