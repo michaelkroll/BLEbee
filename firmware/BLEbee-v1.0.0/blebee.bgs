@@ -148,13 +148,6 @@ event connection_disconnected(connection ,reason)
 	call system_endpoint_set_watermarks(system_endpoint_uart1, 0, 0) 	
 end
 
-event attributes_user_read_request(connection, handle, offset, maxsize) 	
-	if handle=xgatt_con_led
-		call flash_ps_load($8000)(result, len_conn_led_enabled, conn_led_enabled(0:1))
-		call attributes_user_read_response(currentConnection, 0, len_conn_led_enabled, conn_led_enabled(0:1))
-	end if	
-end
-
 event attributes_value(connection, reason, handle, offset, value_len, value_data)
   
   # Characteristic Enabled Connection Led has been written
