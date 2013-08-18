@@ -51,7 +51,7 @@
 	  <!-- org.bluetooth.characteristic.hardware_revision_string -->
 	  <characteristic uuid="2a27">
         <properties read="true" const="true" />
-        <value>1.0.0 REV-A</value>
+        <value>1.0.0 REV-B</value>
 		<description>Hardware Revision String</description>
       </characteristic>   
     </service>
@@ -65,6 +65,18 @@
 			<description>BD-Addr</description>
         </characteristic>
 		
+		<characteristic uuid="2FBC0F31-726A-4014-B9FE-C8BE0652E982" id="xgatt_baudrate">
+            <properties read="true" write="true"/>
+            <value type="hex">0</value>
+			<description>Baudrate</description>
+        </characteristic>
+		
+		<characteristic uuid="15079C1B-F22C-4EA8-A183-AAD62372DC14" id="xgatt_con_led">
+            <properties read="true" write="true"/>
+            <value type="hex">0</value>
+			<description>Enable Connect LED</description>
+        </characteristic>
+		
 		<characteristic uuid="A1E8F5B1-696B-4E4C-87C6-69DFE0B0093B" id="xgatt_rx">
             <properties read="true" notify="true"/>
 			<value length="20" value="hex" variable_length="true"></value>
@@ -72,7 +84,7 @@
         </characteristic>
 		
 		<characteristic uuid="1494440E-9A58-4CC0-81E4-DDEA7F74F623" id="xgatt_tx">
-            <properties read="true" write="true"/>
+            <properties read="true" write="true" write_no_response="true"/>
 			<value length="20" value="hex" variable_length="true"></value>
 			<description>TX</description>
         </characteristic>			

@@ -1,8 +1,10 @@
 xgatt_device_name 3
 xgatt_bdaddr 21
-xgatt_rx 24
-xgatt_tx 28
-xgatt_d0 31
-xgatt_d1 34
-xgatt_d2 37
-xgatt_d3 40
+xgatt_baudrate 24
+xgatt_con_led 27
+xgatt_rx 30
+xgatt_tx 34
+xgatt_d0 37
+xgatt_d1 40
+xgatt_d2 43
+xgatt_d3 46

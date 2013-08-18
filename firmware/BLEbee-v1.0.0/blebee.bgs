@@ -1,4 +1,4 @@
-# BLE-Shield v2.0.0 firmware
+# BLEBee v1.0.0 firmware
 # using BLE112 SDK v1.1.1 build71
 # (c) by Dr. Michael Kroll 2013
 #
@@ -17,11 +17,27 @@ dim in(20)
 dim in_len
 dim result
 
+#variable that holds the status of the connection led
+dim len_conn_led_enabled
+dim conn_led_enabled(1)
+
+#variable that holds the baudrate setting
+dim len_baudrate
+dim baudrate(1)
+
 # used for the Channel characteristics
 dim val
 
 event system_boot(major, minor, patch, build, ll_version, protocol, hw)	
 	
+	# Load the status of the connection led flag from storage
+	call flash_ps_load($8000)(result, len_conn_led_enabled, conn_led_enabled(0:1))
+	call attributes_write(xgatt_con_led, 0, 1, conn_led_enabled(0:1))
+		
+	# Load the status from the baudrate flag from storage
+	call flash_ps_load($8001)(result, len_baudrate, baudrate(0:1))
+	call attributes_write(xgatt_baudrate, 0, 1, baudrate(0:1))		
+		
 	# set port 1 to output
 	call hardware_io_port_config_direction(1, $f)
 	
@@ -81,9 +97,44 @@ event system_boot(major, minor, patch, build, ll_version, protocol, hw)
 		
 	#set bondable mode
 	call sm_set_bondable_mode(1)	
+	
+	# Check the baudrate store setting and set the baudrate accordingly
+	# 9600 baud
+	if baudrate(0:1)=$00	
+        call system_reg_write($70fa, 59)    # mantissa, BAUD_M
+        call system_reg_write($70fc, 8)     # exponent, BAUD_E 
+	end if
+
+	# 14400 baud
+	if baudrate(0:1)=$01
+        call system_reg_write($70fa, 216)   # mantissa, BAUD_M
+        call system_reg_write($70fc, 8)     # exponent, BAUD_E 
+	end if
+	
+	# 19200 baud
+	if baudrate(0:1)=$02
+        call system_reg_write($70fa, 59)    # mantissa, BAUD_M
+        call system_reg_write($70fc, 9)     # exponent, BAUD_E 
+	end if
+	
+	# 28800 baud
+	if baudrate(0:1)=$03
+        call system_reg_write($70fa, 216)   # mantissa, BAUD_M
+        call system_reg_write($70fc, 9)     # exponent, BAUD_E 
+	end if	
+	
+	# 38400 baud
+	if baudrate(0:1)=$04
+        call system_reg_write($70fa, 59)    # mantissa, BAUD_M
+        call system_reg_write($70fc, 10)    # exponent, BAUD_E 
+	end if	
 end
 
 event connection_disconnected(connection ,reason)	
+
+	# load the state of the enable connection led flag from store
+	call flash_ps_load($8000)(result, len_conn_led_enabled, conn_led_enabled(0:1))
+
     #connection disconnected, continue advertising
     call gap_set_mode(gap_general_discoverable,gap_undirected_connectable)
 	
@@ -97,7 +148,69 @@ event connection_disconnected(connection ,reason)
 	call system_endpoint_set_watermarks(system_endpoint_uart1, 0, 0) 	
 end
 
+event attributes_user_read_request(connection, handle, offset, maxsize) 	
+	if handle=xgatt_con_led
+		call flash_ps_load($8000)(result, len_conn_led_enabled, conn_led_enabled(0:1))
+		call attributes_user_read_response(currentConnection, 0, len_conn_led_enabled, conn_led_enabled(0:1))
+	end if	
+end
+
 event attributes_value(connection, reason, handle, offset, value_len, value_data)
+  
+  # Characteristic Enabled Connection Led has been written
+  if handle=xgatt_con_led
+    if value_data(0:1)=$00
+	  call flash_ps_save($8000, value_len, value_data(0:1))
+	end if
+	
+	if value_data(0:1)=$ff
+	  call flash_ps_save($8000, value_len, value_data(0:1))
+	end if
+  end if
+  
+  # Characteristic Baudrate has been written
+  if handle=xgatt_baudrate
+	# 9600 baud
+	if value_data(0:1)=$00
+		call flash_ps_save($8001, value_len, value_data(0:1))		
+		call system_reg_write($70fa, 59)    # mantissa, BAUD_M
+        call system_reg_write($70fc, 8)     # exponent, BAUD_E 
+	end if
+	
+	# 14400 baud
+	if value_data(0:1)=$01
+	  call flash_ps_save($8001, value_len, value_data(0:1)) 
+	  call system_reg_write($70fa, 216)   # mantissa, BAUD_M
+      call system_reg_write($70fc, 8)     # exponent, BAUD_E 
+	end if
+	
+	# 19200 baud
+	if value_data(0:1)=$02
+	  call flash_ps_save($8001, 1, value_data(0:1))	  
+      call system_reg_write($70fa, 59)    # mantissa, BAUD_M
+      call system_reg_write($70fc, 9)     # exponent, BAUD_E 
+	end if	
+
+	# 28800 baud
+	if value_data(0:1)=$03
+	  call flash_ps_save($8001, 1, value_data(0:1))
+  	  call system_reg_write($70fa, 216)   # mantissa, BAUD_M
+      call system_reg_write($70fc, 9)     # exponent, BAUD_E 
+	end if	
+
+	# 38400 baud
+	if value_data(0:1)=$04
+		call flash_ps_save($8001, 1, value_data(0:1))
+		call system_reg_write($70fa, 59)    # mantissa, BAUD_M
+        call system_reg_write($70fc, 10)    # exponent, BAUD_E 	
+	end if	
+	
+	# Load the status from the baudrate flag from storage
+	call flash_ps_load($8001)(result, len_baudrate, baudrate(0:1))
+	call attributes_write(xgatt_baudrate, 0, 1, baudrate(0:1))			
+  end if
+  
+  # Characteristic TX has been written
   if handle=xgatt_tx then 
     call system_endpoint_tx(system_endpoint_uart1, value_len, value_data(0:value_len))
   end if
@@ -168,9 +281,13 @@ end
 
 event connection_status(connection, flags, address, address_type, conn_interval, timeout, latency, bonding)
 	# set port 0 pin P0_0 to "1" 
-	call hardware_io_port_write(0,$1,$1)
+	# turn the ble LED on
+	if conn_led_enabled(0:1)=$ff
+	  call hardware_io_port_write(0,$1,$1)
+	end if
 	
-	# set port 0 pin P0_1 to "1" 
+	# set port 0 pin P0_1 to "1"
+    # set the pin ASSOC high to indicate a connection.	
 	call hardware_io_port_write(0,$2,$2)
 	
 	#enable the watermarks for RX here
