@@ -1,6 +1,7 @@
 BLEbee
 ======
 
+The final design of the BLEBee v1.0.0 Rev.B. looks as on the illustration below. Please use the pinout as illustrated. 
 
 [![](https://raw.github.com/michaelkroll/BLEbee/master/docs/BLEBee-v1.0.0-Rev.B.-Pin-Out.png)](https://raw.github.com/michaelkroll/BLEbee/master/docs/BLEBee-v1.0.0-Rev.B.-Pin-Out.png)
 
@@ -17,8 +18,6 @@ Notes for BLEbee 1.0.0:
 -The Eagle design files are created using Eagle v6.4.0
 
 -The Firmware v1.0.0 for the BLE112 module on the BLEbee was created and compiled for the Bluegiga BLE112 SDK v1.1.1-b71
-
-
 
 Copyright (c) 2012 - 2013 Dr. Michael Kroll
 
