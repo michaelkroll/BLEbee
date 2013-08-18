@@ -2,8 +2,7 @@ BLEbee
 ======
 
 
-
-![BLEBee Pinout](https://github.com/michaelkroll/BLEbee/blob/master/docs/BLEBee-v1.0.0-Rev.B.-Pin-Out.png)
+[![](https://raw.github.com/michaelkroll/BLEbee/blob/master/docs/BLEBee-v1.0.0-Rev.B.-Pin-Out.png)](https://raw.github.com/michaelkroll/BLEbee/blob/master/docs/BLEBee-v1.0.0-Rev.B.-Pin-Out.png)
 
 Notes for BLEbee 0.7.1:
 -----
