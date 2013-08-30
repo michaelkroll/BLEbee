@@ -285,4 +285,4 @@ event connection_status(connection, flags, address, address_type, conn_interval,
 	
 	#enable the watermarks for RX here
 	call system_endpoint_set_watermarks(system_endpoint_uart1, 1, $ff) # set RX watermark
-end
+end 

@@ -5,5 +5,5 @@ RX P0_5
 
 Additional ouput pins are connected as follows: 
 
-Connected LED	P0_0
-Assoc Pin	P0_1
+Connected LED 			P1_0
+Assoc / BLE Connected 	P1_1
