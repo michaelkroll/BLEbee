@@ -7,4 +7,4 @@ xgatt_tx 34
 xgatt_d0 37
 xgatt_d1 40
 xgatt_d2 43
-xgatt_d3 46 
+xgatt_d3 46

@@ -27,6 +27,10 @@ dim baudrate(1)
 
 # used for the Channel characteristics
 dim val
+dim emptyBuf(1)
+
+# set to 1 if device is connected
+dim connected
 
 event system_boot(major, minor, patch, build, ll_version, protocol, hw)	
 	
@@ -128,9 +132,15 @@ event system_boot(major, minor, patch, build, ll_version, protocol, hw)
         call system_reg_write($70fa, 59)    # mantissa, BAUD_M
         call system_reg_write($70fc, 10)    # exponent, BAUD_E 
 	end if	
+	
+	#set the flag to 0, since there is no connection after boot
+	connected = 0
 end
 
 event connection_disconnected(connection ,reason)	
+
+    #set the flag to 0, since the connection was terminated.
+	connected = 0
 
 	# load the state of the enable connection led flag from store
 	call flash_ps_load($8000)(result, len_conn_led_enabled, conn_led_enabled(0:1))
@@ -146,6 +156,10 @@ event connection_disconnected(connection ,reason)
 	
 	# disable watermarks
 	call system_endpoint_set_watermarks(system_endpoint_uart1, 0, 0) 	
+	
+	#clear the data in the GATT 
+	emptyBuf(0:1) = $0
+	call attributes_write(xgatt_rx, 0, 0, emptyBuf(0:0))
 end
 
 event attributes_value(connection, reason, handle, offset, value_len, value_data)
@@ -267,22 +281,52 @@ event system_endpoint_watermark_rx(endpoint, size)
       if in_len > 20 then
         in_len = 20
       end if
-      call system_endpoint_rx(system_endpoint_uart1, in_len)(result, in_len, in(0:in_len))
-      call attributes_write(xgatt_rx, 0, in_len, in(0:in_len))
-    end if
+	      
+      # disable RX watermark (recommended in 'cable replacement' application note from bluegiga	
+	  call system_endpoint_set_watermarks(system_endpoint_uart1, 0, $ff) 
+	  #read from UART
+      call system_endpoint_rx(system_endpoint_uart1, in_len)(result, in_len, in(0:in_len)) 
+	  #send over BLE
+	  call attributes_write(xgatt_rx, 0, in_len, in(0:in_len)) 
+	  # set RX watermark (1 byte treshhold)
+	  call system_endpoint_set_watermarks(system_endpoint_uart1, 1, $ff) 
+	
+	end if
 end
 
 event connection_status(connection, flags, address, address_type, conn_interval, timeout, latency, bonding)
-	# set port 0 pin P0_0 to "1" 
-	# turn the ble LED on
-	if conn_led_enabled(0:1)=$ff
-	  call hardware_io_port_write(0,$1,$1)
+	if connected = 0 then
+		# set port 0 pin P0_0 to "1" 
+		# turn the ble LED on
+		if conn_led_enabled(0:1)=$ff
+		  call hardware_io_port_write(0,$1,$1)
+		end if
+	
+		# set port 0 pin P0_1 to "1"
+		# set the pin ASSOC high to indicate a connection.	
+		call hardware_io_port_write(0,$2,$2)
+	
+		#clear the UART buffer
+		#reading from it 10 times seem to do the trick
+		in_len = 1
+		call system_endpoint_rx(system_endpoint_uart1, in_len)(result, in_len, in(0:in_len)) #read from UART
+		call system_endpoint_rx(system_endpoint_uart1, in_len)(result, in_len, in(0:in_len)) #read from UART
+		call system_endpoint_rx(system_endpoint_uart1, in_len)(result, in_len, in(0:in_len)) #read from UART
+		call system_endpoint_rx(system_endpoint_uart1, in_len)(result, in_len, in(0:in_len)) #read from UART
+		call system_endpoint_rx(system_endpoint_uart1, in_len)(result, in_len, in(0:in_len)) #read from UART
+		call system_endpoint_rx(system_endpoint_uart1, in_len)(result, in_len, in(0:in_len)) #read from UART
+		call system_endpoint_rx(system_endpoint_uart1, in_len)(result, in_len, in(0:in_len)) #read from UART
+		call system_endpoint_rx(system_endpoint_uart1, in_len)(result, in_len, in(0:in_len)) #read from UART
+		call system_endpoint_rx(system_endpoint_uart1, in_len)(result, in_len, in(0:in_len)) #read from UART
+		call system_endpoint_rx(system_endpoint_uart1, in_len)(result, in_len, in(0:in_len)) #read from UART
+		
+		#clear the data in the GATT 
+		emptyBuf(0:1) = $0
+		call attributes_write(xgatt_rx, 0, 0, emptyBuf(0:0))
+		
+		#enable the watermarks for RX here
+		call system_endpoint_set_watermarks(system_endpoint_uart1, 1, $ff) 
 	end if
 	
-	# set port 0 pin P0_1 to "1"
-    # set the pin ASSOC high to indicate a connection.	
-	call hardware_io_port_write(0,$2,$2)
-	
-	#enable the watermarks for RX here
-	call system_endpoint_set_watermarks(system_endpoint_uart1, 1, $ff) # set RX watermark
-end 
+	connected = 1		
+end
