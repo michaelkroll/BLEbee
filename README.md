@@ -5,13 +5,6 @@ The final design of the BLEBee v1.0.0 Rev.B. looks as on the illustration below.
 
 [![](https://raw.github.com/michaelkroll/BLEbee/master/docs/BLEBee-v1.0.0-Rev.B.-Pin-Out.png)](https://raw.github.com/michaelkroll/BLEbee/master/docs/BLEBee-v1.0.0-Rev.B.-Pin-Out.png)
 
-Notes for BLEbee 0.7.1:
------
-
--The Eagle design files are created using Eagle v5.11.0
-
--The Firmware v0.7.1 for the BLE112 module on the BLEbee was created and compiled for the Bluegiga BLE112 SDK v1.0.3-b43
-
 Notes for BLEbee 1.0.0:
 -----
 
