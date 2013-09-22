@@ -61,7 +61,7 @@ event system_boot(major, minor, patch, build, ll_version, protocol, hw)
 	devicename(0:1)   = 66  # B 
 	devicename(1:1)   = 76  # L
 	devicename(2:1)   = 69  # E
-	devicename(3:1)   = 98  # b
+	devicename(3:1)   = 66  # B
 	devicename(4:1)   = 101 # e
 	devicename(5:1)   = 101 # e	
 	devicename(6:1)   = 32  # 
