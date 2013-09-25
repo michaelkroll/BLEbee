@@ -35,7 +35,7 @@
 	  <!-- org.bluetooth.characteristic.model_number_string -->
 	  <characteristic uuid="2a24">
         <properties read="true" const="true" />
-        <value>BLEbee 1.0.0</value>
+        <value>BLEBee 1.0.0</value>
 		<description>Model Number String</description>
       </characteristic>
 
@@ -57,7 +57,7 @@
     </service>
 	
 	<service uuid="EF080D8C-C3BE-41FF-BD3F-05A5F4795D7F" advertise="true">
-        <description>BLEbee Service v1.0.0</description>
+        <description>BLEBee Service v1.0.0</description>
        
 	   <characteristic uuid="38117F3C-28AB-4718-AB95-172B363F2AE0" id="xgatt_bdaddr">
             <properties read="true" />
