@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project>
+    <gatt in="BLEBee-gatt.xml" />
+    <hardware in="BLEBee-hardware.xml" />
+    <config in="BLEBee-config.xml" />     
+    <script in="BLEBee.bgs" />
+    <image out="BLEBee-Firmware-1.0.1-BLE-SDK1.2.0-b91.hex" />    
+</project>

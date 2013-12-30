@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+	<service uuid="1800">
+      <description>Generic Access Profile</description>
+ 
+	  <!-- Device Name -->                                        
+	  <!-- org.bluetooth.characteristic.gap.device_name -->
+      <characteristic uuid="2a00" id="xgatt_device_name">
+        <properties read="true" />
+        <value>01234567890123456789</value>
+      </characteristic>
+
+	  <!-- Appearance -->
+	  <!-- org.bluetooth.characteristic.gap.appearance -->
+      <characteristic uuid="2a01">
+        <!-- 128: Generic Computer, Generic category -->
+        <properties read="true" const="true" />
+        <value type="hex">0080</value>
+      </characteristic>
+    </service>
+
+    <service uuid="180A">
+      <description>Device Information</description>
+
+	  <!-- Manufacturer Name String -->
+	  <!-- org.bluetooth.characteristic.manufacturer_name_string -->
+      <characteristic uuid="2a29">
+        <properties read="true" const="true" />
+        <value>Dr. Michael Kroll</value>
+		<description>Manufacturer Name String</description>
+      </characteristic>
+	  
+	  <!-- Model Number String -->
+	  <!-- org.bluetooth.characteristic.model_number_string -->
+	  <characteristic uuid="2a24">
+        <properties read="true" const="true" />
+        <value>BLEBee 1.0.0</value>
+		<description>Model Number String</description>
+      </characteristic>
+
+	  <!-- Firmware Revision String -->
+	  <!-- org.bluetooth.characteristic.firmware_revision_string -->
+	  <characteristic uuid="2a26">
+        <properties read="true" const="true" />
+        <value>1.0.0</value>
+		<description>Firmware Revision String</description>
+      </characteristic>
+	  
+	  <!-- Hardware Revision String -->
+	  <!-- org.bluetooth.characteristic.hardware_revision_string -->
+	  <characteristic uuid="2a27">
+        <properties read="true" const="true" />
+        <value>1.0.0 REV-B</value>
+		<description>Hardware Revision String</description>
+      </characteristic>   
+    </service>
+	
+	<service uuid="EF080D8C-C3BE-41FF-BD3F-05A5F4795D7F" advertise="true">
+        <description>BLEBee Service v1.0.0</description>
+       
+	   <characteristic uuid="38117F3C-28AB-4718-AB95-172B363F2AE0" id="xgatt_bdaddr">
+            <properties read="true" />
+            <value type="hex">001122334455</value>
+			<description>BD-Addr</description>
+        </characteristic>
+		
+		<characteristic uuid="2FBC0F31-726A-4014-B9FE-C8BE0652E982" id="xgatt_baudrate">
+            <properties read="true" write="true"/>
+            <value type="hex">0</value>
+			<description>Baudrate</description>
+        </characteristic>
+		
+		<characteristic uuid="15079C1B-F22C-4EA8-A183-AAD62372DC14" id="xgatt_con_led">
+            <properties read="true" write="true"/>
+            <value type="hex">0</value>
+			<description>Enable Connect LED</description>
+        </characteristic>
+		
+		<characteristic uuid="A1E8F5B1-696B-4E4C-87C6-69DFE0B0093B" id="xgatt_rx">
+            <properties read="true" notify="true"/>
+			<value length="20" value="hex" variable_length="true"></value>
+			<description>RX</description>
+        </characteristic>
+		
+		<characteristic uuid="1494440E-9A58-4CC0-81E4-DDEA7F74F623" id="xgatt_tx">
+            <properties read="true" write="true" write_no_response="true"/>
+			<value length="20" value="hex" variable_length="true"></value>
+			<description>TX</description>
+        </characteristic>			
+		
+		<characteristic uuid="7F21B8AF-6E87-44E0-B17E-5928C272E78C" id="xgatt_d0">
+            <properties read="true" write="true"/>
+            <value type="hex">0</value>
+			<description>D0 Output</description>
+        </characteristic>
+		
+		<characteristic uuid="47F39196-A9E9-4F16-A13D-C2B56647FEB6" id="xgatt_d1">
+            <properties read="true" write="true"/>
+            <value type="hex">0</value>
+			<description>D1 Output</description>
+        </characteristic>
+		
+		<characteristic uuid="228B778F-6F75-495F-8AD4-591C37E0FF0B" id="xgatt_d2">
+            <properties read="true" write="true"/>
+            <value type="hex">0</value>
+			<description>D2 Output</description>
+        </characteristic>
+		
+		<characteristic uuid="5A6D168F-07C0-48CB-95D0-930CAFD399CA" id="xgatt_d3">
+            <properties read="true" write="true"/>
+            <value type="hex">0</value>
+			<description>D3 Output</description>
+        </characteristic>	
+		
+    </service>
+
+</configuration>
