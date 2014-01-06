@@ -1,9 +1,12 @@
-# BLEBee v1.0.0 firmware
-# using BLE112 SDK v1.1.1 build71
-# (c) by Dr. Michael Kroll 2013
+# BLEBee v1.0.1 firmware
+# using BLE112 SDK v1.2.1 build91
+# (c) by Dr. Michael Kroll 2013-2014
 #
 # http://www.mkroll.mobi
 # http://forum.mkroll.mobi
+
+# See https://bluegiga.zendesk.com/entries/23109941--BGScript-baud-change-Modify-UART-baud-rate-at-runtime
+# for details on how to change the baudrate at runtime.
 
 # used for the BD Addr characteristic
 dim bdaddr(6)
@@ -133,6 +136,18 @@ event system_boot(major, minor, patch, build, ll_version, protocol, hw)
         call system_reg_write($70fc, 10)    # exponent, BAUD_E 
 	end if	
 	
+	# 57600 baud
+	if baudrate(0:1)=$05
+        call system_reg_write($70fa, 216)    # mantissa, BAUD_M
+        call system_reg_write($70fc, 10)    # exponent, BAUD_E 
+	end if
+	
+	# 115200 baud
+	if baudrate(0:1)=$06
+        call system_reg_write($70fa, 216)    # mantissa, BAUD_M
+        call system_reg_write($70fc, 11)    # exponent, BAUD_E 
+	end if
+	
 	#set the flag to 0, since there is no connection after boot
 	connected = 0
 end
@@ -193,23 +208,37 @@ event attributes_value(connection, reason, handle, offset, value_len, value_data
 	
 	# 19200 baud
 	if value_data(0:1)=$02
-	  call flash_ps_save($8001, 1, value_data(0:1))	  
+	  call flash_ps_save($8001, value_len, value_data(0:1))	  
       call system_reg_write($70fa, 59)    # mantissa, BAUD_M
       call system_reg_write($70fc, 9)     # exponent, BAUD_E 
 	end if	
 
 	# 28800 baud
 	if value_data(0:1)=$03
-	  call flash_ps_save($8001, 1, value_data(0:1))
+	  call flash_ps_save($8001, value_len, value_data(0:1))
   	  call system_reg_write($70fa, 216)   # mantissa, BAUD_M
       call system_reg_write($70fc, 9)     # exponent, BAUD_E 
 	end if	
 
 	# 38400 baud
-	if value_data(0:1)=$04
-		call flash_ps_save($8001, 1, value_data(0:1))
+	if value_data(0:1) = $04
+		call flash_ps_save($8001, value_len, value_data(0:1))
 		call system_reg_write($70fa, 59)    # mantissa, BAUD_M
         call system_reg_write($70fc, 10)    # exponent, BAUD_E 	
+	end if	
+	
+	# 57600 baud
+	if value_data(0:1) = $05
+	    call flash_ps_save($8001, value_len, value_data(0:1))	
+		call system_reg_write($70fa, 216)    # mantissa, BAUD_M
+        call system_reg_write($70fc, 10)    # exponent, BAUD_E 
+	end if
+	
+	# 115200 baud
+	if value_data(0:1) = $06
+        call flash_ps_save($8001, value_len, value_data(0:1))
+		call system_reg_write($70fa, 216)    # mantissa, BAUD_M
+        call system_reg_write($70fc, 11)    # exponent, BAUD_E 
 	end if	
 	
 	# Load the status from the baudrate flag from storage

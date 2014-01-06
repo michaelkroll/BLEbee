@@ -43,7 +43,7 @@
 	  <!-- org.bluetooth.characteristic.firmware_revision_string -->
 	  <characteristic uuid="2a26">
         <properties read="true" const="true" />
-        <value>1.0.0</value>
+        <value>1.0.1</value>
 		<description>Firmware Revision String</description>
       </characteristic>
 	  
@@ -67,7 +67,7 @@
 		
 		<characteristic uuid="2FBC0F31-726A-4014-B9FE-C8BE0652E982" id="xgatt_baudrate">
             <properties read="true" write="true"/>
-            <value type="hex">0</value>
+            <value type="hex">00</value>
 			<description>Baudrate</description>
         </characteristic>
 		
@@ -79,13 +79,13 @@
 		
 		<characteristic uuid="A1E8F5B1-696B-4E4C-87C6-69DFE0B0093B" id="xgatt_rx">
             <properties read="true" notify="true"/>
-			<value length="20" value="hex" variable_length="true"></value>
+			<value length="20" type="hex" variable_length="true"></value>
 			<description>RX</description>
         </characteristic>
 		
 		<characteristic uuid="1494440E-9A58-4CC0-81E4-DDEA7F74F623" id="xgatt_tx">
             <properties read="true" write="true" write_no_response="true"/>
-			<value length="20" value="hex" variable_length="true"></value>
+			<value length="20" type="hex" variable_length="true"></value>
 			<description>TX</description>
         </characteristic>			
 		

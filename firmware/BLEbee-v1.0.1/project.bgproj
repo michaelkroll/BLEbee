@@ -4,5 +4,5 @@
     <hardware in="BLEBee-hardware.xml" />
     <config in="BLEBee-config.xml" />     
     <script in="BLEBee.bgs" />
-    <image out="BLEBee-Firmware-1.0.1-BLE-SDK1.2.0-b91.hex" />    
+    <image out="BLEBee-Firmware-1.0.1-BLE-SDK1.2.1-b91.hex" />    
 </project>
