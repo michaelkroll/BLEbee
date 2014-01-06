@@ -35,3 +35,6 @@ Notes for BLEbee 1.0.0:
 -The Eagle design files are created using Eagle v6.4.0
 
 -The Firmware v1.0.0 for the BLE112 module on the BLEbee was created and compiled for the Bluegiga BLE112 SDK v1.1.1-b71
+
+-The Firmware v1.0.1 for the BLE112 module on the BLEbee was created and compiled for the Bluegiga BLE112 SDK v1.2.1-b91
+
