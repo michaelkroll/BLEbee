@@ -1,0 +1,7 @@
+xgatt_device_name 3
+xgatt_bdaddr 21
+xgatt_baudrate 24
+xgatt_con_led 27
+xgatt_data 30
+ota_control 35
+ota_data 37
