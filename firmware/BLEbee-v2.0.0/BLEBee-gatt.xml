@@ -51,7 +51,7 @@
 	  <!-- org.bluetooth.characteristic.hardware_revision_string -->
 	  <characteristic uuid="2a27">
         <properties read="true" const="true" />
-        <value>1.0.0 REV-A</value>
+        <value>2.0.0 REV-A</value>
 		<description>Hardware Revision String</description>
       </characteristic>   
     </service>
@@ -77,7 +77,6 @@
             <value type="hex">0</value>
 			<description>Enable Connect LED</description>
         </characteristic>
-		
 		
 		<characteristic uuid="067978AC-B99F-4EC9-9C09-2AB6E5BDAD0B" id="xgatt_data">
             <description>Data</description>

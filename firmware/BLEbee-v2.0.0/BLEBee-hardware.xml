@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <hardware>
-	<!-- disable USB on the Shield -->
+	<!-- disable USB on the BLEBee -->
     <usb enable="false" endpoint="none" />
     
     <sleeposc enable="false" ppm="30" />
