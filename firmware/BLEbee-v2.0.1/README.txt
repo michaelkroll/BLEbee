@@ -1,4 +1,6 @@
-The UART is configured to be available as follows:
+Firmware v2.0.1 is a backport of the v1.0.1 firmware for the BLEBee v2.0.0
+
+The UART i sconfigured to be available as follows:
 
 TX P0_4
 RX P0_5
